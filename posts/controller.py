@@ -1,18 +1,25 @@
+from flask import request,render_template
+from posts.models import Posts
 from utils import app
 from flask_sqlalchemy import SQLAlchemy
 
-POSTGRESQL_URI = "postgres://qqlyispm:oc8UNA3oxNUGg71TNNEV4WpyxJcO738c@john.db.elephantsql.com/qqlyispm"
-app.config['SQLALCHEMY_DATABSE_URI'] = POSTGRESQL_URI
 
 db = SQLAlchemy(app)
 
-class Posts(db.model):
-    __tablename__ = 'posts'
-    message = db.Column(db.String(40),primary_key=True)
-    lat = db.Column(db.Float)
-    lon = db.Column(db.Float)
+@app.route("/posts")
+def posts():
+    return render_template('index.html')
 
-    def __init__(self,message,lat,lon):
-        self.message = message
-        self.lat = lat
-        self.lon = lon
+@app.route("/posts/submit", methods=['GET','POST'])
+def submit():
+    if request.method == 'POST':
+        message = request.form['message']
+        lat = request.form['lat']
+        lon = request.form['lon']
+        print("IMPORTANT:::",lat,lon,message)
+        post = Posts(message,lat,lon)
+        db.session.add(post)
+        db.session.commit()
+
+        
+    return render_template('success.html',data=post)

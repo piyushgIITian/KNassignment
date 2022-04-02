@@ -1,10 +1,11 @@
 
 from utils import app
 
-@app.route("/")
+@app.route("/posts")
 def posts():
-    return "help"
-@app.route("/submit", methods=['GET','POST'])
+    pass
+
+@app.route("/posts/submit", methods=['GET','POST'])
 def submit():
     pass
         
