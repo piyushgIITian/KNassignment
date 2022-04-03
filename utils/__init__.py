@@ -12,5 +12,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 def home():
     return render_template('main.html')
 
-from posts import controller
-from weather import controller
+import posts
+import weather
